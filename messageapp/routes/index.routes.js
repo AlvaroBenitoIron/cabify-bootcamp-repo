@@ -1,15 +1,17 @@
 const router = require("express").Router();
-const messagesService = require("../services/message.service")
+const ApiHandler = require('./../services/message.service')
 
-router.post("/messages", (req, res, next) => {
+const messageHandler = new ApiHandler()
+
+router.post("/", (req, res, next) => {
 
   const { destination, body } = req.body
 
-  messagesService
+  messageHandler
     .sendMessage({ destination, body })
-    .then((message) => res.status(200).json(message.data))
-    .catch((err) => res.status(500).json({ message: "service failed", err }))
+    .then(({ data }) => res.status(200).json(data))
+    .catch(err => res.status(500).json(err))
+});
 
-})
 
 module.exports = router;
