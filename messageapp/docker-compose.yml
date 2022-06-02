@@ -2,8 +2,8 @@ version: '3'
 services:
   exercise1:
     build: .
-    image: "exercise01_exercise1:latest"
-    expose: 
+    image: "messageapp_exercise1:latest"
+    expose:
       - "9001"
     ports:
       - "9001:9001"
@@ -13,7 +13,7 @@ services:
       - "messageapp"
   messageapp:
     image: "cabify/backend-bootcamp-messageapp:latest"
-    expose:
-      - "3000"
     ports:
       - "3000:3000"
+    expose:
+      - "3000"

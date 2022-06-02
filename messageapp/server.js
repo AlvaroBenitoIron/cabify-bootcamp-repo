@@ -1,6 +1,6 @@
-const app = require("./messageapp/app");
+const app = require("./app");
 
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 9001;
 
 app.listen(PORT, () => {
   console.log(`Server listening on port http://localhost:${PORT}`);
