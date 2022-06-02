@@ -17,7 +17,7 @@ router.post("/messages", (req, res, next) => {
     res.status(400).json({ message: "Message is required" })
   }
   else if (typeof destination !== "string" || typeof message !== "string") {
-    res.status(400).json({ message: "Only strings allowed" })
+    res.status(422).json({ message: "Only strings allowed" })
   }
   else {
     messageHandler
@@ -25,7 +25,6 @@ router.post("/messages", (req, res, next) => {
       .then(({ data }) => res.status(200).json(data))
       .catch(err => res.status(500).json({ message: 'Internal Server Error' }))
   }
-
 });
 
 
