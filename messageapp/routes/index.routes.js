@@ -16,7 +16,7 @@ router.post("/messages", (req, res, next) => {
   else if (!message) {
     res.status(400).json({ message: "Message is required" })
   }
-  else if (typeof destination !== String || typeof message !== String) {
+  else if (typeof destination !== "string" || typeof message !== "string") {
     res.status(400).json({ message: "Only strings allowed" })
   }
   else {
