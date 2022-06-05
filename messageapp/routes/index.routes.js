@@ -32,15 +32,26 @@ router.post("/messages", (req, res, next) => {
   }
   else {
     messageHandler
-
       .sendMessage({ destination, body: message })
       .then(() => {
         messageDBService
-          .dbMessage({ destination, message })
+          .dbMessage({ destination, message, status: 'CONFIRMED' })
           .then(_response => res.status(200).json({ message: "Message stored" }))
           .catch(_err => res.status(500).json({ message: "Message not stored" }))
       })
-      .catch(err => res.status(500).json({ message: 'Internal Server Errooooooooooooooooooor' }))
+      .catch(err => {
+        if (err.response.status === 500) {
+          messageDBService
+            .dbMessage({ destination, message, status: 'PENDANT' })
+            .then(_response => res.status(500).json({ message: "Message stored, but not sent" }))
+            .catch(_err => res.status(500).json({ message: "Message not stored" }))
+        } else if (err.response.status === 504) {
+          messageDBService
+            .dbMessage({ destination, message, status: 'SENT' })
+            .then(_response => res.status(500).json({ message: "Message stored but not confirmed because of a timeout" }))
+            .catch(_err => TextDecoderStream.status(500).json({ message: "Message not stored" }))
+        }
+      })
   }
 });
 

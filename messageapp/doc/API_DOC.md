@@ -10,9 +10,6 @@ This document contains the requests our API accepts, and the possible success an
   POST /messages
 ```
 
-
-
-
 ## Responses
 #### Success
 - Required keys well provided: 200: OK
@@ -30,4 +27,4 @@ This document contains the requests our API accepts, and the possible success an
 
 ## Postman collection with test
 
-[Collection](messageapp/bin/Test.postman_collection.json)
+[Collection](../bin/Test.postman_collection.json)

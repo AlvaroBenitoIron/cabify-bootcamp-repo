@@ -11,6 +11,13 @@ const messageSchema = new Schema(
         message: {
             type: String,
             required: [true, "Message is required"]
+        },
+        number: {
+            type: Number
+        },
+        status: {
+            type: String,
+            enum: ['ERROR', 'OK', 'TIMEOUT']
         }
     },
     {
