@@ -17,3 +17,14 @@ services:
       - "3000:3000"
     expose:
       - "3000"
+  mongodb:
+    image: mongo
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    depends_on:
+      - messageapp
+    command:
+      - '--logpath'
+      - '/var/log/mongodb/mongod.log'
