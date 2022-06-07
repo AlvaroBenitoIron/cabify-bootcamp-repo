@@ -7,7 +7,7 @@ import sendMessage from "./src/controllers/sendMessage.js";
 import getCredit from "./src/controllers/getCredit.js";
 import setBudget from "./src/controllers/setBudget.js";
 
-import Budget from "./src/models/budget.js"
+import { Budget } from "./src/models/budget.js"
 
 const app = express();
 
@@ -58,8 +58,8 @@ app.get("/credit", getCredit)
 app.delete("/credit", (req, res) => {
   Budget
     .deleteMany()
-    .then(_response => res.status(200).json({ message: "Deleted budget" }))
-    .catch(_err => res.status(500).json({ message: "Cannot delete the budget" }))
+    .then(response => res.status(200).json({ message: "Deleted budget" }))
+    .catch(err => res.status(500).json({ message: "Cannot delete budget" }))
 })
 
 app.use((err, req, res, _next) => {

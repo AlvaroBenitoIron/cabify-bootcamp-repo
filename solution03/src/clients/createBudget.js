@@ -1,4 +1,7 @@
-import Budget from '../models/budget.js'
+import { Budget, BackupBudget } from '../models/budget.js'
+
+import lockedSync from "locked-sync"
+const sync = lockedSync()
 
 export default async (budgetParams) => {
 
@@ -11,14 +14,23 @@ export default async (budgetParams) => {
     } else {
 
         const budget = new Budget(budgetParams);
+        const backupBudget = new BackupBudget(budgetParams)
+
+        const end = await sync()
 
         try {
             const doc = await budget.save();
+            const backupDoc = await backupBudget.save();
 
             console.log("Budget correctly saved:", doc);
             return doc;
+
         } catch (err) {
-            console.log("Error saving the budget", err);
+
+            console.log("Error saving budget", err);
+
+        } finally {
+            end()
         }
 
     }

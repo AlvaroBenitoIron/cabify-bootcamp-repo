@@ -1,26 +1,14 @@
-import http from 'http'
-
+import getCredit from '../clients/getCredit.js'
 import createBudget from '../clients/createBudget.js'
+import updateBudget from '../clients/updateBudget.js'
 
 export default async (req, res) => {
+
     const body = JSON.stringify(req.body)
 
-    const postOptions = {
-        // host: "127.0.0.1",
-        host: "localhost",
-        port: 9003,
-        path: "/credit",
-        method: "post",
-        json: true,
-        headers: {
-            "Content-Type": "application/json",
-            "Content-Length": Buffer.byteLength(body),
-        },
-    };
+    const budget = await getCredit()
 
-    const postReq = http.request(postOptions)
-
-    postReq.on("response", async (postRes) => {
+    if (budget.length == 0) {
 
         const { amount } = req.body
 
@@ -28,7 +16,7 @@ export default async (req, res) => {
 
             await createBudget({ amount })
             res.statusCode = 200;
-            res.end(postRes.body);
+            res.end();
 
         } catch (error) {
 
@@ -36,5 +24,24 @@ export default async (req, res) => {
             res.statusCode = 500;
             res.end(`Internal server error: SERVICE ERROR ${error.message}`);
         }
-    })
+
+    } else {
+
+        const { amount } = req.body
+
+        try {
+
+            await updateBudget(amount)
+            res.statusCode = 200;
+            res.end();
+
+        } catch (error) {
+
+            console.log(error.message);
+            res.statusCode = 500;
+            res.end(`Internal server error: SERVICE ERROR ${error.message}`);
+        }
+
+    }
+
 }
