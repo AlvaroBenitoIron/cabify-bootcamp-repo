@@ -6,6 +6,8 @@ import getMessages from "./src/controllers/getMessages.js";
 import sendMessage from "./src/controllers/sendMessage.js";
 import getCredit from "./src/controllers/getCredit.js";
 import setBudget from "./src/controllers/setBudget.js";
+import getMessageStatus from "./src/controllers/getMessageStatus.js";
+import main from "./src/queues/message.queue.js";
 
 import { Budget } from "./src/models/budget.js"
 
@@ -46,6 +48,14 @@ app.post(
 
 app.get("/messages", getMessages);
 
+app.get('/test', async function (req, res) {
+  console.log('adfasdaadada')
+  await main()
+  res.send('test')
+})
+
+app.get("/message/:messageId/status", getMessageStatus)
+
 app.post(
   "/credit",
   bodyParser.json(),
@@ -58,8 +68,8 @@ app.get("/credit", getCredit)
 app.delete("/credit", (req, res) => {
   Budget
     .deleteMany()
-    .then(response => res.status(200).json({ message: "Deleted budget" }))
-    .catch(err => res.status(500).json({ message: "Cannot delete budget" }))
+    .then(_response => res.status(200).json({ message: "Deleted budget" }))
+    .catch(_err => res.status(500).json({ message: "Cannot delete budget" }))
 })
 
 app.use((err, req, res, _next) => {

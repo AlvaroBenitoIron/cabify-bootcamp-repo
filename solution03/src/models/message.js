@@ -8,7 +8,7 @@ const messageSchema = new mongoose.Schema({
   body: String,
   status: {
     type: String,
-    enum: ["ERROR", "OK", "TIMEOUT"],
+    enum: ["ERROR", "OK", "TIMEOUT", "PENDING", "NOT ENOUGH CREDIT"],
   }
 });
 

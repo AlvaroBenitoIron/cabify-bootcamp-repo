@@ -9,7 +9,7 @@ export default async (messageParams) => {
   const message = new Message(messageParams);
   const backupMessage = new BackupMessage(messageParams)
 
-  if (message.status === 'OK') {
+  if (message.status === 'PENDING') {
 
     const end = await sync()
 

@@ -4,6 +4,7 @@ export default async (change) => {
 
     const budget = await Budget.find()
     const budgetBackup = await BackupBudget.find()
+    // let flag = false
 
     try {
 
@@ -11,6 +12,8 @@ export default async (change) => {
 
         const doc = await budget[0].save()
         console.log("Budget correctly updated:", doc);
+        
+        // flag = true
 
         // try catch para guardar en la replica
 
