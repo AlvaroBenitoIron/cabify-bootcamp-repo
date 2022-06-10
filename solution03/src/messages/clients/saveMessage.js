@@ -1,6 +1,6 @@
 import { Message, BackupMessage } from "../models/message.js";
 
-import updateBudget from "./updateBudget.js";
+import updateBudget from "../../clients/updateBudget.js";
 
 import lockedSync from "locked-sync"
 const sync = lockedSync()

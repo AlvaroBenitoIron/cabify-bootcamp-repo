@@ -1,4 +1,4 @@
-import { Budget, BackupBudget } from '../models/budget.js'
+import { Budget, BackupBudget } from '../model/budget.js'
 
 import lockedSync from "locked-sync"
 const sync = lockedSync()

@@ -14,21 +14,39 @@ services:
     image: cabify/backend-bootcamp-messageapp
     ports:
       - "3000:3000"
-  mongodb:
+  messagesMongodb:
     image: mongo
     volumes:
-      - ./data/db:/data/db
+      - ./data/db:/messageData/db
     ports:
       - 27017:27017
     command:
       - '--logpath'
       - '/var/log/mongodb/mongod.log'
-  mongodbBackup:
+  messagesMongodbBackup:
     image: mongo
     volumes:
       - ./backupData/db:/backupData/db
     ports:
       - 27018:27017
+    command:
+      - '--logpath'
+      - '/var/log/mongodb/mongodBackup.log'
+  creditMongodb:
+    image: mongo
+    volumes:
+      - ./data/db:/creditData/db
+    ports:
+      - 27019:27017
+    command:
+      - '--logpath'
+      - '/var/log/mongodb/mongod.log'
+  creditMongodbBackup:
+    image: mongo
+    volumes:
+      - ./backupData/db:/creditBackupData/db
+    ports:
+      - 27020:27017
     command:
       - '--logpath'
       - '/var/log/mongodb/mongodBackup.log'

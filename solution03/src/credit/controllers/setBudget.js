@@ -13,7 +13,6 @@ export default async (req, res) => {
         const { amount } = req.body
 
         try {
-
             await createBudget({ amount })
             res.statusCode = 200;
             res.end();
@@ -30,7 +29,6 @@ export default async (req, res) => {
         const { amount } = req.body
 
         try {
-
             await updateBudget(amount)
             res.statusCode = 200;
             res.end();

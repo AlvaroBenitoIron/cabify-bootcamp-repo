@@ -1,3 +1,3 @@
-import { Budget } from "../models/budget.js";
+import { Budget } from "../model/budget.js";
 
 export default (conditions = {}) => Budget.find(conditions);

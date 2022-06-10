@@ -1,9 +1,9 @@
 import Queue from 'bull'
 import http from "http";
 
-import { Message } from "../models/message.js";
-import updateBudget from "../clients/updateBudget.js";
-import getCredit from "../clients/getCredit.js";
+import { Message } from "../model/message.js";
+import getCredit from "../../credit/clients/getCredit.js";
+import updateBudget from '../../credit/clients/updateBudget.js';
 
 const redisHost = "localhost";
 const redisPort = 6379
@@ -11,19 +11,23 @@ const redisPort = 6379
 const messageQueue = new Queue('message', {
     redis: { host: redisHost, port: redisPort }
 })
+const creditQueue = new Queue('credit', {
+    redis: { host: redisHost, port: redisPort }
+})
 
 messageQueue.process(async (job) => {
 
+    let messageId = job.data.messageId
     const budget = await getCredit()
 
     if (budget[0].amount < 0) {
-        await Message.findByIdAndUpdate(job.data.messageId, { status: "NOT ENOUGH CREDIT" })
+        await Message.findByIdAndUpdate(messageId, { status: "NOT ENOUGH CREDIT" })
 
         return
 
     } else {
 
-        const message = await Message.findById(job.data.messageId)
+        const message = await Message.findById(messageId)
         const body = JSON.stringify({ body: message.body, destination: message.destination });
         const postOptions = {
             host: "localhost",
@@ -43,7 +47,8 @@ messageQueue.process(async (job) => {
         postReq.on("response", async (postRes) => {
             try {
                 const status = postRes.statusCode === 200 ? "OK" : "ERROR"
-                await Message.findByIdAndUpdate(job.data.messageId, { status: status })
+                await Message.findByIdAndUpdate(messageId, { status: status })
+                updateBudget(-1)
 
             } catch (error) {
                 console.log(error.message);
@@ -55,7 +60,7 @@ messageQueue.process(async (job) => {
             postReq.abort();
 
             try {
-                await Message.findByIdAndUpdate(job.data.messageId, { status: "TIMEOUT" })
+                await Message.findByIdAndUpdate(messageId, { status: "TIMEOUT" })
 
             } catch {
             }
@@ -67,7 +72,5 @@ messageQueue.process(async (job) => {
     }
 
 });
-
-
 
 export default messageQueue

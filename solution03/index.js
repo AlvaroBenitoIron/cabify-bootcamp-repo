@@ -2,14 +2,13 @@ import bodyParser from "body-parser";
 import express from "express";
 import { ValidationError, Validator } from "express-json-validator-middleware";
 
-import getMessages from "./src/controllers/getMessages.js";
-import sendMessage from "./src/controllers/sendMessage.js";
-import getCredit from "./src/controllers/getCredit.js";
-import setBudget from "./src/controllers/setBudget.js";
-import getMessageStatus from "./src/controllers/getMessageStatus.js";
-import main from "./src/queues/message.queue.js";
+import getMessages from "./src/messages/controllers/getMessages.js";
+import sendMessage from "./src/messages/controllers/sendMessage.js";
+import getCredit from "./src/credit/controllers/getCredit.js";
+import setBudget from "./src/credit/controllers/setBudget.js";
+import getMessageStatus from "./src/messages/controllers/getMessageStatus.js";
 
-import { Budget } from "./src/models/budget.js"
+import { Budget } from "./src/credit/model/budget.js"
 
 const app = express();
 
@@ -47,12 +46,6 @@ app.post(
 );
 
 app.get("/messages", getMessages);
-
-app.get('/test', async function (req, res) {
-  console.log('adfasdaadada')
-  await main()
-  res.send('test')
-})
 
 app.get("/message/:messageId/status", getMessageStatus)
 

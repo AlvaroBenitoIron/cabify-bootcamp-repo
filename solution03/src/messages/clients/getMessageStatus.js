@@ -1,4 +1,4 @@
-import { Message } from "../models/message.js";
+import { Message } from "../model/message.js";
 
 export default async (conditions) => {
 
