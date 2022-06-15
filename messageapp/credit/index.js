@@ -9,7 +9,7 @@ import newCredit from "./src/controllers/newCredit.js";
 import receiveMessage from "./src/jobs/receiveMessage.js";
 
 const app = express();
-const {validate} = new Validator({ allErrors: true });
+const { validate } = new Validator({ allErrors: true });
 
 const creditSchema = {
   type: "object",
