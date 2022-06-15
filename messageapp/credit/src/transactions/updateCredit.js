@@ -68,9 +68,11 @@ function updateCreditTransaction(conditions, messageData) {
       console.log("Error updating credit transaction:", err);
       if (oldValue) {
         oldValue.markModified("amount");
-        oldValue.save().then(() => {
-          throw err;
-        });
+        oldValue
+          .save()
+          .then(() => {
+            throw err;
+          });
       } else {
         throw err;
       }

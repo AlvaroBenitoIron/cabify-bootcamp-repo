@@ -9,6 +9,8 @@ import {
 import sendMessage from "./src/controllers/sendMessage.js";
 import getMessages from "./src/controllers/getMessages.js";
 import getMessageStatus from "./src/controllers/getMessageStatus.js";
+import getHealth from "./src/controllers/getHealth.js";
+import getVersion from "./src/controllers/getVersion.js";
 
 const app = express();
 
@@ -47,6 +49,10 @@ app.get("/messages", getMessages);
 
 app.get("/message/:messageId/status", getMessageStatus);
 
+app.get("/health", getHealth)
+
+app.get("/version", getVersion)
+
 app.use((err, req, res, next) => {
   console.log(res.body);
   if (err instanceof ValidationError) {
@@ -56,6 +62,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(9007, () => {
-  console.log("App started on PORT 9007");
+app.listen(80, () => {
+  console.log("App started on PORT 80");
 });
