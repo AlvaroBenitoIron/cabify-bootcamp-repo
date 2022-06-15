@@ -50,7 +50,7 @@ services:
     volumes:
       - "./message:/app"
 
-   message-2:
+  message2:
     image: message-2
     build: message/
     restart: always
@@ -74,23 +74,23 @@ services:
     volumes:
       - "./message:/app"
 
-  message3:
-    build: message/
-    restart: always
-    ports:
-      - "9009:9007"
-    links:
-      - messageapp
-      - mongodb_message
-      - replica_message
-      - redis
-    depends_on:
-      - messageapp
-      - mongodb_message
-      - replica_message
-      - redis
-    volumes:
-      - "./message:/app"
+  # message3:
+  #   build: message/
+  #   restart: always
+  #   ports:
+  #     - "9009:9007"
+  #   links:
+  #     - messageapp
+  #     - mongodb_message
+  #     - replica_message
+  #     - redis
+  #   depends_on:
+  #     - messageapp
+  #     - mongodb_message
+  #     - replica_message
+  #     - redis
+  #   volumes:
+  #     - "./message:/app"
 
   credit:
     build: credit/
